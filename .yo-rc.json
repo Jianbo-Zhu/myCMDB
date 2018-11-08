@@ -1,0 +1,39 @@
+{
+  "generator-jhipster": {
+    "applicationType": "monolith",
+    "gitCompany": "",
+    "baseName": "myCMDB",
+    "packageName": "net.jianbo.cmdb",
+    "packageFolder": "net/jianbo/cmdb",
+    "serverPort": 8080,
+    "serviceDiscoveryType": false,
+    "authenticationType": "jwt",
+    "uaaBaseName": "../uaa",
+    "cacheProvider": "ehcache",
+    "enableHibernateCache": true,
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "h2Disk",
+    "prodDatabaseType": "mysql",
+    "searchEngine": false,
+    "enableSwaggerCodegen": false,
+    "messageBroker": false,
+    "buildTool": "maven",
+    "useSass": false,
+    "clientPackageManager": "npm",
+    "testFrameworks": [],
+    "enableTranslation": true,
+    "nativeLanguage": "zh-cn",
+    "languages": [
+      "en",
+      "zh-cn"
+    ],
+    "clientFramework": "react",
+    "jhiPrefix": "jhi",
+    "jhipsterVersion": "5.6.1",
+    "jwtSecretKey": "OWVlYmI3MWVhZDEyZmVmZWVjNmQyNWFjN2VjZmI1ZjlmMmNmY2E5ZmM0YmE5NGQzZjY0NzdkZTkxM2NlYjQ4MTM1OWRkMzAzZGJkMjY0OWFkNmU0YjUxMThkYzE1Y2YyMWNlY2UwYzc1MjA0NTI3NzI5MjFkNDU1NWEwZTYxYWI="
+  },
+  "git-provider": "GitHub",
+  "git-company": "Jianbo-Zhu",
+  "repository-name": "myCMDB"
+}
