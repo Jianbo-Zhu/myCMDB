@@ -90,19 +90,19 @@
             "relationshipType": "many-to-one",
             "relationshipName": "dataCenter",
             "otherEntityName": "dataCenter",
-            "otherEntityField": "id"
+            "otherEntityField": "dcName"
         },
         {
             "relationshipType": "many-to-one",
             "relationshipName": "owner",
             "otherEntityName": "contactor",
-            "otherEntityField": "id"
+            "otherEntityField": "name"
         },
         {
             "relationshipType": "many-to-one",
             "relationshipName": "vendorContact",
             "otherEntityName": "contactor",
-            "otherEntityField": "id"
+            "otherEntityField": "name"
         }
     ],
     "changelogDate": "20181108121928",

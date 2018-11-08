@@ -105,9 +105,11 @@ export class Server extends React.Component<IServerProps> {
                   <td>
                     <TextFormat type="date" value={server.warrantyDate} format={APP_LOCAL_DATE_FORMAT} />
                   </td>
-                  <td>{server.dataCenter ? <Link to={`data-center/${server.dataCenter.id}`}>{server.dataCenter.id}</Link> : ''}</td>
-                  <td>{server.owner ? <Link to={`contactor/${server.owner.id}`}>{server.owner.id}</Link> : ''}</td>
-                  <td>{server.vendorContact ? <Link to={`contactor/${server.vendorContact.id}`}>{server.vendorContact.id}</Link> : ''}</td>
+                  <td>{server.dataCenter ? <Link to={`data-center/${server.dataCenter.id}`}>{server.dataCenter.dcName}</Link> : ''}</td>
+                  <td>{server.owner ? <Link to={`contactor/${server.owner.id}`}>{server.owner.name}</Link> : ''}</td>
+                  <td>
+                    {server.vendorContact ? <Link to={`contactor/${server.vendorContact.id}`}>{server.vendorContact.name}</Link> : ''}
+                  </td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${server.id}`} color="info" size="sm">

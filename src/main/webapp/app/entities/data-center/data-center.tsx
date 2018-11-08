@@ -60,7 +60,7 @@ export class DataCenter extends React.Component<IDataCenterProps> {
                   <td>{dataCenter.dcName}</td>
                   <td>{dataCenter.address}</td>
                   <td>
-                    {dataCenter.contractor ? <Link to={`contactor/${dataCenter.contractor.id}`}>{dataCenter.contractor.id}</Link> : ''}
+                    {dataCenter.contractor ? <Link to={`contactor/${dataCenter.contractor.id}`}>{dataCenter.contractor.name}</Link> : ''}
                   </td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">

@@ -101,15 +101,15 @@ export class ServerDetail extends React.Component<IServerDetailProps> {
             <dt>
               <Translate contentKey="myCmdbApp.server.dataCenter">Data Center</Translate>
             </dt>
-            <dd>{serverEntity.dataCenter ? serverEntity.dataCenter.id : ''}</dd>
+            <dd>{serverEntity.dataCenter ? serverEntity.dataCenter.dcName : ''}</dd>
             <dt>
               <Translate contentKey="myCmdbApp.server.owner">Owner</Translate>
             </dt>
-            <dd>{serverEntity.owner ? serverEntity.owner.id : ''}</dd>
+            <dd>{serverEntity.owner ? serverEntity.owner.name : ''}</dd>
             <dt>
               <Translate contentKey="myCmdbApp.server.vendorContact">Vendor Contact</Translate>
             </dt>
-            <dd>{serverEntity.vendorContact ? serverEntity.vendorContact.id : ''}</dd>
+            <dd>{serverEntity.vendorContact ? serverEntity.vendorContact.name : ''}</dd>
           </dl>
           <Button tag={Link} to="/entity/server" replace color="info">
             <FontAwesomeIcon icon="arrow-left" />{' '}
