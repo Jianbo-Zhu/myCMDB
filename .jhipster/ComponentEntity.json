@@ -1,0 +1,44 @@
+{
+    "name": "ComponentEntity",
+    "fields": [
+        {
+            "fieldName": "comName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "comType",
+            "fieldType": "ComponentType",
+            "fieldValues": "MODULE,MIDDLEWARE",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "app",
+            "otherEntityName": "application",
+            "otherEntityField": "appName"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipValidateRules": "required",
+            "relationshipName": "server",
+            "otherEntityName": "server",
+            "otherEntityField": "hostname"
+        }
+    ],
+    "changelogDate": "20181108121927",
+    "entityTableName": "component_entity",
+    "dto": "no",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

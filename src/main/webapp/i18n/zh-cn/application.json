@@ -1,0 +1,23 @@
+{
+  "myCmdbApp": {
+    "application": {
+      "home": {
+        "title": "Applications",
+        "createLabel": "创建新 Application",
+        "createOrEditLabel": "创建或编辑 Application"
+      },
+      "created": "Application {{ param }} 创建成功",
+      "updated": "Application {{ param }} 更新成功",
+      "deleted": "Application {{ param }} 删除成功",
+      "delete": {
+        "question": "你确定要删除 Application {{ id }} 吗？"
+      },
+      "detail": {
+        "title": "Application"
+      },
+      "appName": "App Name",
+      "environment": "Environment",
+      "components": "Components"
+    }
+  }
+}

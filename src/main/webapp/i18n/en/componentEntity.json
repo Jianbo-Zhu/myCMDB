@@ -1,0 +1,24 @@
+{
+  "myCmdbApp": {
+    "componentEntity": {
+      "home": {
+        "title": "Component Entities",
+        "createLabel": "Create a new Component Entity",
+        "createOrEditLabel": "Create or edit a Component Entity"
+      },
+      "created": "A new Component Entity is created with identifier {{ param }}",
+      "updated": "A Component Entity is updated with identifier {{ param }}",
+      "deleted": "A Component Entity is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Component Entity {{ id }}?"
+      },
+      "detail": {
+        "title": "Component Entity"
+      },
+      "comName": "Com Name",
+      "comType": "Com Type",
+      "app": "App",
+      "server": "Server"
+    }
+  }
+}

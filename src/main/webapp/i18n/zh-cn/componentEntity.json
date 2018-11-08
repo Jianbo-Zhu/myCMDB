@@ -1,0 +1,24 @@
+{
+  "myCmdbApp": {
+    "componentEntity": {
+      "home": {
+        "title": "Component Entities",
+        "createLabel": "创建新 Component Entity",
+        "createOrEditLabel": "创建或编辑 Component Entity"
+      },
+      "created": "Component Entity {{ param }} 创建成功",
+      "updated": "Component Entity {{ param }} 更新成功",
+      "deleted": "Component Entity {{ param }} 删除成功",
+      "delete": {
+        "question": "你确定要删除 Component Entity {{ id }} 吗？"
+      },
+      "detail": {
+        "title": "Component Entity"
+      },
+      "comName": "Com Name",
+      "comType": "Com Type",
+      "app": "App",
+      "server": "Server"
+    }
+  }
+}
