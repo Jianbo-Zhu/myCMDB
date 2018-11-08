@@ -7,7 +7,7 @@ entity DataCenter {
     address String required
 }
 relationship OneToOne {
-	DataCenter{ contractor(name) } to Contactor
+	DataCenter{ contactor(name) required } to Contactor
 }
 
 entity Application {
@@ -24,7 +24,7 @@ enum ComponentType{
 }
 
 relationship OneToMany {
-	Application{ components(comName) } to ComponentEntity{ app(appName) }
+	Application{ components(comName) required } to ComponentEntity{ app(appName) required }
 }
 
 entity Server {
@@ -42,17 +42,17 @@ entity Server {
 }
 
 relationship OneToMany {
-	Server{ components(comName) } to ComponentEntity{ server(hostname) required }
+	Server{ components(comName) required } to ComponentEntity{ server(hostname) required }
 }
 
 relationship ManyToOne {
-	Server{ dataCenter(dcName) } to DataCenter
+	Server{ dataCenter(dcName) required } to DataCenter
 }
 relationship ManyToOne {
-	Server{ owner(name) } to Contactor
+	Server{ owner(name) required } to Contactor
 }
 relationship ManyToOne {
-	Server{ vendorContact(name) } to Contactor
+	Server{ vendorContact(name) required } to Contactor
 }
 
 
