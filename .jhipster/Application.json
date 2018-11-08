@@ -19,6 +19,7 @@
     "relationships": [
         {
             "relationshipType": "one-to-many",
+            "relationshipValidateRules": "required",
             "relationshipName": "components",
             "otherEntityName": "componentEntity",
             "otherEntityRelationshipName": "app"

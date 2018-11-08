@@ -41,9 +41,9 @@ export class DataCenterDetail extends React.Component<IDataCenterDetailProps> {
             </dt>
             <dd>{dataCenterEntity.address}</dd>
             <dt>
-              <Translate contentKey="myCmdbApp.dataCenter.contractor">Contractor</Translate>
+              <Translate contentKey="myCmdbApp.dataCenter.contactor">Contactor</Translate>
             </dt>
-            <dd>{dataCenterEntity.contractor ? dataCenterEntity.contractor.name : ''}</dd>
+            <dd>{dataCenterEntity.contactor ? dataCenterEntity.contactor.name : ''}</dd>
           </dl>
           <Button tag={Link} to="/entity/data-center" replace color="info">
             <FontAwesomeIcon icon="arrow-left" />{' '}

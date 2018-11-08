@@ -4,7 +4,7 @@ export interface IDataCenter {
   id?: number;
   dcName?: string;
   address?: string;
-  contractor?: IContactor;
+  contactor?: IContactor;
 }
 
 export const defaultValue: Readonly<IDataCenter> = {};

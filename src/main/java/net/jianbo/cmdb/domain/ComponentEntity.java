@@ -35,7 +35,8 @@ public class ComponentEntity implements Serializable {
     @Column(name = "com_type", nullable = false)
     private ComponentType comType;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties("components")
     private Application app;
 

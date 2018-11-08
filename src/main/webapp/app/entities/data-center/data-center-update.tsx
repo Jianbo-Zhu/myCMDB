@@ -20,14 +20,14 @@ export interface IDataCenterUpdateProps extends StateProps, DispatchProps, Route
 
 export interface IDataCenterUpdateState {
   isNew: boolean;
-  contractorId: string;
+  contactorId: string;
 }
 
 export class DataCenterUpdate extends React.Component<IDataCenterUpdateProps, IDataCenterUpdateState> {
   constructor(props) {
     super(props);
     this.state = {
-      contractorId: '0',
+      contactorId: '0',
       isNew: !this.props.match.params || !this.props.match.params.id
     };
   }
@@ -122,10 +122,10 @@ export class DataCenterUpdate extends React.Component<IDataCenterUpdateProps, ID
                   />
                 </AvGroup>
                 <AvGroup>
-                  <Label for="contractor.name">
-                    <Translate contentKey="myCmdbApp.dataCenter.contractor">Contractor</Translate>
+                  <Label for="contactor.name">
+                    <Translate contentKey="myCmdbApp.dataCenter.contactor">Contactor</Translate>
                   </Label>
-                  <AvInput id="data-center-contractor" type="select" className="form-control" name="contractor.id">
+                  <AvInput id="data-center-contactor" type="select" className="form-control" name="contactor.id">
                     <option value="" key="0" />
                     {contactors
                       ? contactors.map(otherEntity => (

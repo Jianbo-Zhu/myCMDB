@@ -255,8 +255,13 @@ export class ServerUpdate extends React.Component<IServerUpdateProps, IServerUpd
                   <Label for="dataCenter.dcName">
                     <Translate contentKey="myCmdbApp.server.dataCenter">Data Center</Translate>
                   </Label>
-                  <AvInput id="server-dataCenter" type="select" className="form-control" name="dataCenter.id">
-                    <option value="" key="0" />
+                  <AvInput
+                    id="server-dataCenter"
+                    type="select"
+                    className="form-control"
+                    name="dataCenter.id"
+                    value={isNew ? dataCenters[0] && dataCenters[0].id : serverEntity.dataCenter.id}
+                  >
                     {dataCenters
                       ? dataCenters.map(otherEntity => (
                           <option value={otherEntity.id} key={otherEntity.id}>
@@ -270,8 +275,13 @@ export class ServerUpdate extends React.Component<IServerUpdateProps, IServerUpd
                   <Label for="owner.name">
                     <Translate contentKey="myCmdbApp.server.owner">Owner</Translate>
                   </Label>
-                  <AvInput id="server-owner" type="select" className="form-control" name="owner.id">
-                    <option value="" key="0" />
+                  <AvInput
+                    id="server-owner"
+                    type="select"
+                    className="form-control"
+                    name="owner.id"
+                    value={isNew ? contactors[0] && contactors[0].id : serverEntity.owner.id}
+                  >
                     {contactors
                       ? contactors.map(otherEntity => (
                           <option value={otherEntity.id} key={otherEntity.id}>
@@ -285,8 +295,13 @@ export class ServerUpdate extends React.Component<IServerUpdateProps, IServerUpd
                   <Label for="vendorContact.name">
                     <Translate contentKey="myCmdbApp.server.vendorContact">Vendor Contact</Translate>
                   </Label>
-                  <AvInput id="server-vendorContact" type="select" className="form-control" name="vendorContact.id">
-                    <option value="" key="0" />
+                  <AvInput
+                    id="server-vendorContact"
+                    type="select"
+                    className="form-control"
+                    name="vendorContact.id"
+                    value={isNew ? contactors[0] && contactors[0].id : serverEntity.vendorContact.id}
+                  >
                     {contactors
                       ? contactors.map(otherEntity => (
                           <option value={otherEntity.id} key={otherEntity.id}>
