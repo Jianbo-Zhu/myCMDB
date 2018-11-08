@@ -1,0 +1,9 @@
+{
+  "myCmdbApp": {
+    "ComponentType": {
+      "null": "",
+      "MODULE": "MODULE",
+      "MIDDLEWARE": "MIDDLEWARE"
+    }
+  }
+}

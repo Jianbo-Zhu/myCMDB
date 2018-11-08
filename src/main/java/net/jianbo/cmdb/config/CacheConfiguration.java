@@ -38,6 +38,13 @@ public class CacheConfiguration {
             cm.createCache(net.jianbo.cmdb.domain.User.class.getName(), jcacheConfiguration);
             cm.createCache(net.jianbo.cmdb.domain.Authority.class.getName(), jcacheConfiguration);
             cm.createCache(net.jianbo.cmdb.domain.User.class.getName() + ".authorities", jcacheConfiguration);
+            cm.createCache(net.jianbo.cmdb.domain.Contactor.class.getName(), jcacheConfiguration);
+            cm.createCache(net.jianbo.cmdb.domain.DataCenter.class.getName(), jcacheConfiguration);
+            cm.createCache(net.jianbo.cmdb.domain.Application.class.getName(), jcacheConfiguration);
+            cm.createCache(net.jianbo.cmdb.domain.Application.class.getName() + ".components", jcacheConfiguration);
+            cm.createCache(net.jianbo.cmdb.domain.ComponentEntity.class.getName(), jcacheConfiguration);
+            cm.createCache(net.jianbo.cmdb.domain.Server.class.getName(), jcacheConfiguration);
+            cm.createCache(net.jianbo.cmdb.domain.Server.class.getName() + ".components", jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

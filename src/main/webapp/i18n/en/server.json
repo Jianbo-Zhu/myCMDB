@@ -1,0 +1,35 @@
+{
+  "myCmdbApp": {
+    "server": {
+      "home": {
+        "title": "Servers",
+        "createLabel": "Create a new Server",
+        "createOrEditLabel": "Create or edit a Server"
+      },
+      "created": "A new Server is created with identifier {{ param }}",
+      "updated": "A Server is updated with identifier {{ param }}",
+      "deleted": "A Server is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Server {{ id }}?"
+      },
+      "detail": {
+        "title": "Server"
+      },
+      "hostname": "Hostname",
+      "ipAddress": "Ip Address",
+      "macAddress": "Mac Address",
+      "position": "Position",
+      "brand": "Brand",
+      "memSize": "Mem Size",
+      "coreNo": "Core No",
+      "osVersion": "Os Version",
+      "vendor": "Vendor",
+      "purchaseDate": "Purchase Date",
+      "warrantyDate": "Warranty Date",
+      "components": "Components",
+      "dataCenter": "Data Center",
+      "owner": "Owner",
+      "vendorContact": "Vendor Contact"
+    }
+  }
+}

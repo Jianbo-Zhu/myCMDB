@@ -1,0 +1,22 @@
+{
+  "myCmdbApp": {
+    "contactor": {
+      "home": {
+        "title": "Contactors",
+        "createLabel": "Create a new Contactor",
+        "createOrEditLabel": "Create or edit a Contactor"
+      },
+      "created": "A new Contactor is created with identifier {{ param }}",
+      "updated": "A Contactor is updated with identifier {{ param }}",
+      "deleted": "A Contactor is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Contactor {{ id }}?"
+      },
+      "detail": {
+        "title": "Contactor"
+      },
+      "name": "Name",
+      "phone": "Phone"
+    }
+  }
+}
