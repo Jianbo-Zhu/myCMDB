@@ -3,6 +3,10 @@ package net.jianbo.cmdb.web.rest;
 import net.jianbo.cmdb.MyCmdbApp;
 
 import net.jianbo.cmdb.domain.Server;
+import net.jianbo.cmdb.domain.ComponentEntity;
+import net.jianbo.cmdb.domain.DataCenter;
+import net.jianbo.cmdb.domain.Contactor;
+import net.jianbo.cmdb.domain.Contactor;
 import net.jianbo.cmdb.repository.ServerRepository;
 import net.jianbo.cmdb.service.ServerService;
 import net.jianbo.cmdb.web.rest.errors.ExceptionTranslator;
@@ -127,6 +131,23 @@ public class ServerResourceIntTest {
             .vendor(DEFAULT_VENDOR)
             .purchaseDate(DEFAULT_PURCHASE_DATE)
             .warrantyDate(DEFAULT_WARRANTY_DATE);
+        // Add required entity
+        ComponentEntity componentEntity = ComponentEntityResourceIntTest.createEntity(em);
+        em.persist(componentEntity);
+        em.flush();
+        server.getComponents().add(componentEntity);
+        // Add required entity
+        DataCenter dataCenter = DataCenterResourceIntTest.createEntity(em);
+        em.persist(dataCenter);
+        em.flush();
+        server.setDataCenter(dataCenter);
+        // Add required entity
+        Contactor contactor = ContactorResourceIntTest.createEntity(em);
+        em.persist(contactor);
+        em.flush();
+        server.setOwner(contactor);
+        // Add required entity
+        server.setVendorContact(contactor);
         return server;
     }
 

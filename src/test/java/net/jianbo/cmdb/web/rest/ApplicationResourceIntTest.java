@@ -3,6 +3,7 @@ package net.jianbo.cmdb.web.rest;
 import net.jianbo.cmdb.MyCmdbApp;
 
 import net.jianbo.cmdb.domain.Application;
+import net.jianbo.cmdb.domain.ComponentEntity;
 import net.jianbo.cmdb.repository.ApplicationRepository;
 import net.jianbo.cmdb.service.ApplicationService;
 import net.jianbo.cmdb.web.rest.errors.ExceptionTranslator;
@@ -89,6 +90,11 @@ public class ApplicationResourceIntTest {
         Application application = new Application()
             .appName(DEFAULT_APP_NAME)
             .environment(DEFAULT_ENVIRONMENT);
+        // Add required entity
+        ComponentEntity componentEntity = ComponentEntityResourceIntTest.createEntity(em);
+        em.persist(componentEntity);
+        em.flush();
+        application.getComponents().add(componentEntity);
         return application;
     }
 

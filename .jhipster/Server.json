@@ -82,24 +82,28 @@
     "relationships": [
         {
             "relationshipType": "one-to-many",
+            "relationshipValidateRules": "required",
             "relationshipName": "components",
             "otherEntityName": "componentEntity",
             "otherEntityRelationshipName": "server"
         },
         {
             "relationshipType": "many-to-one",
+            "relationshipValidateRules": "required",
             "relationshipName": "dataCenter",
             "otherEntityName": "dataCenter",
             "otherEntityField": "dcName"
         },
         {
             "relationshipType": "many-to-one",
+            "relationshipValidateRules": "required",
             "relationshipName": "owner",
             "otherEntityName": "contactor",
             "otherEntityField": "name"
         },
         {
             "relationshipType": "many-to-one",
+            "relationshipValidateRules": "required",
             "relationshipName": "vendorContact",
             "otherEntityName": "contactor",
             "otherEntityField": "name"

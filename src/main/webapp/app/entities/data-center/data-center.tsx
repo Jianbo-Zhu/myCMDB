@@ -44,7 +44,7 @@ export class DataCenter extends React.Component<IDataCenterProps> {
                   <Translate contentKey="myCmdbApp.dataCenter.address">Address</Translate>
                 </th>
                 <th>
-                  <Translate contentKey="myCmdbApp.dataCenter.contractor">Contractor</Translate>
+                  <Translate contentKey="myCmdbApp.dataCenter.contactor">Contactor</Translate>
                 </th>
                 <th />
               </tr>
@@ -60,7 +60,7 @@ export class DataCenter extends React.Component<IDataCenterProps> {
                   <td>{dataCenter.dcName}</td>
                   <td>{dataCenter.address}</td>
                   <td>
-                    {dataCenter.contractor ? <Link to={`contactor/${dataCenter.contractor.id}`}>{dataCenter.contractor.name}</Link> : ''}
+                    {dataCenter.contactor ? <Link to={`contactor/${dataCenter.contactor.id}`}>{dataCenter.contactor.name}</Link> : ''}
                   </td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">

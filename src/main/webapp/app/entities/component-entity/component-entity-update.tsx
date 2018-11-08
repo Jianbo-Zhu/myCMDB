@@ -136,8 +136,13 @@ export class ComponentEntityUpdate extends React.Component<IComponentEntityUpdat
                   <Label for="app.appName">
                     <Translate contentKey="myCmdbApp.componentEntity.app">App</Translate>
                   </Label>
-                  <AvInput id="component-entity-app" type="select" className="form-control" name="app.id">
-                    <option value="" key="0" />
+                  <AvInput
+                    id="component-entity-app"
+                    type="select"
+                    className="form-control"
+                    name="app.id"
+                    value={isNew ? applications[0] && applications[0].id : componentEntityEntity.app.id}
+                  >
                     {applications
                       ? applications.map(otherEntity => (
                           <option value={otherEntity.id} key={otherEntity.id}>

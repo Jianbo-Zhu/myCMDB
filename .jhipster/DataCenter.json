@@ -19,7 +19,8 @@
     "relationships": [
         {
             "relationshipType": "one-to-one",
-            "relationshipName": "contractor",
+            "relationshipValidateRules": "required",
+            "relationshipName": "contactor",
             "otherEntityName": "contactor",
             "otherEntityField": "name",
             "ownerSide": true,

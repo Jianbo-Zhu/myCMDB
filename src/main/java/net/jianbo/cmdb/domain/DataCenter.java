@@ -31,8 +31,9 @@ public class DataCenter implements Serializable {
     @Column(name = "address", nullable = false)
     private String address;
 
-    @OneToOne    @JoinColumn(unique = true)
-    private Contactor contractor;
+    @OneToOne(optional = false)    @NotNull
+    @JoinColumn(unique = true)
+    private Contactor contactor;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -69,17 +70,17 @@ public class DataCenter implements Serializable {
         this.address = address;
     }
 
-    public Contactor getContractor() {
-        return contractor;
+    public Contactor getContactor() {
+        return contactor;
     }
 
-    public DataCenter contractor(Contactor contactor) {
-        this.contractor = contactor;
+    public DataCenter contactor(Contactor contactor) {
+        this.contactor = contactor;
         return this;
     }
 
-    public void setContractor(Contactor contactor) {
-        this.contractor = contactor;
+    public void setContactor(Contactor contactor) {
+        this.contactor = contactor;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

@@ -3,6 +3,7 @@ package net.jianbo.cmdb.web.rest;
 import net.jianbo.cmdb.MyCmdbApp;
 
 import net.jianbo.cmdb.domain.DataCenter;
+import net.jianbo.cmdb.domain.Contactor;
 import net.jianbo.cmdb.repository.DataCenterRepository;
 import net.jianbo.cmdb.service.DataCenterService;
 import net.jianbo.cmdb.web.rest.errors.ExceptionTranslator;
@@ -89,6 +90,11 @@ public class DataCenterResourceIntTest {
         DataCenter dataCenter = new DataCenter()
             .dcName(DEFAULT_DC_NAME)
             .address(DEFAULT_ADDRESS);
+        // Add required entity
+        Contactor contactor = ContactorResourceIntTest.createEntity(em);
+        em.persist(contactor);
+        em.flush();
+        dataCenter.setContactor(contactor);
         return dataCenter;
     }
 
