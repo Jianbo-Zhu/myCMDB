@@ -122,7 +122,7 @@ export class DataCenterUpdate extends React.Component<IDataCenterUpdateProps, ID
                   />
                 </AvGroup>
                 <AvGroup>
-                  <Label for="contractor.id">
+                  <Label for="contractor.name">
                     <Translate contentKey="myCmdbApp.dataCenter.contractor">Contractor</Translate>
                   </Label>
                   <AvInput id="data-center-contractor" type="select" className="form-control" name="contractor.id">
@@ -130,7 +130,7 @@ export class DataCenterUpdate extends React.Component<IDataCenterUpdateProps, ID
                     {contactors
                       ? contactors.map(otherEntity => (
                           <option value={otherEntity.id} key={otherEntity.id}>
-                            {otherEntity.id}
+                            {otherEntity.name}
                           </option>
                         ))
                       : null}

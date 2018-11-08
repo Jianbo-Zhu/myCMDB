@@ -21,7 +21,7 @@
             "relationshipType": "one-to-one",
             "relationshipName": "contractor",
             "otherEntityName": "contactor",
-            "otherEntityField": "id",
+            "otherEntityField": "name",
             "ownerSide": true,
             "otherEntityRelationshipName": "dataCenter"
         }
