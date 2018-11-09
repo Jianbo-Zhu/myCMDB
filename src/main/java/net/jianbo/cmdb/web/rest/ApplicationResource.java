@@ -5,6 +5,8 @@ import net.jianbo.cmdb.domain.Application;
 import net.jianbo.cmdb.service.ApplicationService;
 import net.jianbo.cmdb.web.rest.errors.BadRequestAlertException;
 import net.jianbo.cmdb.web.rest.util.HeaderUtil;
+import net.jianbo.cmdb.service.dto.ApplicationCriteria;
+import net.jianbo.cmdb.service.ApplicationQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,8 +33,11 @@ public class ApplicationResource {
 
     private final ApplicationService applicationService;
 
-    public ApplicationResource(ApplicationService applicationService) {
+    private final ApplicationQueryService applicationQueryService;
+
+    public ApplicationResource(ApplicationService applicationService, ApplicationQueryService applicationQueryService) {
         this.applicationService = applicationService;
+        this.applicationQueryService = applicationQueryService;
     }
 
     /**
@@ -80,13 +85,28 @@ public class ApplicationResource {
     /**
      * GET  /applications : get all the applications.
      *
+     * @param criteria the criterias which the requested entities should match
      * @return the ResponseEntity with status 200 (OK) and the list of applications in body
      */
     @GetMapping("/applications")
     @Timed
-    public List<Application> getAllApplications() {
-        log.debug("REST request to get all Applications");
-        return applicationService.findAll();
+    public ResponseEntity<List<Application>> getAllApplications(ApplicationCriteria criteria) {
+        log.debug("REST request to get Applications by criteria: {}", criteria);
+        List<Application> entityList = applicationQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(entityList);
+    }
+
+    /**
+    * GET  /applications/count : count all the applications.
+    *
+    * @param criteria the criterias which the requested entities should match
+    * @return the ResponseEntity with status 200 (OK) and the count in body
+    */
+    @GetMapping("/applications/count")
+    @Timed
+    public ResponseEntity<Long> countApplications(ApplicationCriteria criteria) {
+        log.debug("REST request to count Applications by criteria: {}", criteria);
+        return ResponseEntity.ok().body(applicationQueryService.countByCriteria(criteria));
     }
 
     /**

@@ -6,6 +6,8 @@ import net.jianbo.cmdb.domain.Contactor;
 import net.jianbo.cmdb.repository.ContactorRepository;
 import net.jianbo.cmdb.service.ContactorService;
 import net.jianbo.cmdb.web.rest.errors.ExceptionTranslator;
+import net.jianbo.cmdb.service.dto.ContactorCriteria;
+import net.jianbo.cmdb.service.ContactorQueryService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -53,6 +55,9 @@ public class ContactorResourceIntTest {
     private ContactorService contactorService;
 
     @Autowired
+    private ContactorQueryService contactorQueryService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -71,7 +76,7 @@ public class ContactorResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final ContactorResource contactorResource = new ContactorResource(contactorService);
+        final ContactorResource contactorResource = new ContactorResource(contactorService, contactorQueryService);
         this.restContactorMockMvc = MockMvcBuilders.standaloneSetup(contactorResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -200,6 +205,119 @@ public class ContactorResourceIntTest {
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
             .andExpect(jsonPath("$.phone").value(DEFAULT_PHONE.toString()));
     }
+
+    @Test
+    @Transactional
+    public void getAllContactorsByNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        contactorRepository.saveAndFlush(contactor);
+
+        // Get all the contactorList where name equals to DEFAULT_NAME
+        defaultContactorShouldBeFound("name.equals=" + DEFAULT_NAME);
+
+        // Get all the contactorList where name equals to UPDATED_NAME
+        defaultContactorShouldNotBeFound("name.equals=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllContactorsByNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        contactorRepository.saveAndFlush(contactor);
+
+        // Get all the contactorList where name in DEFAULT_NAME or UPDATED_NAME
+        defaultContactorShouldBeFound("name.in=" + DEFAULT_NAME + "," + UPDATED_NAME);
+
+        // Get all the contactorList where name equals to UPDATED_NAME
+        defaultContactorShouldNotBeFound("name.in=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllContactorsByNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        contactorRepository.saveAndFlush(contactor);
+
+        // Get all the contactorList where name is not null
+        defaultContactorShouldBeFound("name.specified=true");
+
+        // Get all the contactorList where name is null
+        defaultContactorShouldNotBeFound("name.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllContactorsByPhoneIsEqualToSomething() throws Exception {
+        // Initialize the database
+        contactorRepository.saveAndFlush(contactor);
+
+        // Get all the contactorList where phone equals to DEFAULT_PHONE
+        defaultContactorShouldBeFound("phone.equals=" + DEFAULT_PHONE);
+
+        // Get all the contactorList where phone equals to UPDATED_PHONE
+        defaultContactorShouldNotBeFound("phone.equals=" + UPDATED_PHONE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllContactorsByPhoneIsInShouldWork() throws Exception {
+        // Initialize the database
+        contactorRepository.saveAndFlush(contactor);
+
+        // Get all the contactorList where phone in DEFAULT_PHONE or UPDATED_PHONE
+        defaultContactorShouldBeFound("phone.in=" + DEFAULT_PHONE + "," + UPDATED_PHONE);
+
+        // Get all the contactorList where phone equals to UPDATED_PHONE
+        defaultContactorShouldNotBeFound("phone.in=" + UPDATED_PHONE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllContactorsByPhoneIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        contactorRepository.saveAndFlush(contactor);
+
+        // Get all the contactorList where phone is not null
+        defaultContactorShouldBeFound("phone.specified=true");
+
+        // Get all the contactorList where phone is null
+        defaultContactorShouldNotBeFound("phone.specified=false");
+    }
+    /**
+     * Executes the search, and checks that the default entity is returned
+     */
+    private void defaultContactorShouldBeFound(String filter) throws Exception {
+        restContactorMockMvc.perform(get("/api/contactors?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(contactor.getId().intValue())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
+            .andExpect(jsonPath("$.[*].phone").value(hasItem(DEFAULT_PHONE.toString())));
+
+        // Check, that the count call also returns 1
+        restContactorMockMvc.perform(get("/api/contactors/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned
+     */
+    private void defaultContactorShouldNotBeFound(String filter) throws Exception {
+        restContactorMockMvc.perform(get("/api/contactors?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restContactorMockMvc.perform(get("/api/contactors/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("0"));
+    }
+
 
     @Test
     @Transactional

@@ -8,6 +8,8 @@ import net.jianbo.cmdb.domain.Server;
 import net.jianbo.cmdb.repository.ComponentEntityRepository;
 import net.jianbo.cmdb.service.ComponentEntityService;
 import net.jianbo.cmdb.web.rest.errors.ExceptionTranslator;
+import net.jianbo.cmdb.service.dto.ComponentEntityCriteria;
+import net.jianbo.cmdb.service.ComponentEntityQueryService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -56,6 +58,9 @@ public class ComponentEntityResourceIntTest {
     private ComponentEntityService componentEntityService;
 
     @Autowired
+    private ComponentEntityQueryService componentEntityQueryService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -74,7 +79,7 @@ public class ComponentEntityResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final ComponentEntityResource componentEntityResource = new ComponentEntityResource(componentEntityService);
+        final ComponentEntityResource componentEntityResource = new ComponentEntityResource(componentEntityService, componentEntityQueryService);
         this.restComponentEntityMockMvc = MockMvcBuilders.standaloneSetup(componentEntityResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -213,6 +218,157 @@ public class ComponentEntityResourceIntTest {
             .andExpect(jsonPath("$.comName").value(DEFAULT_COM_NAME.toString()))
             .andExpect(jsonPath("$.comType").value(DEFAULT_COM_TYPE.toString()));
     }
+
+    @Test
+    @Transactional
+    public void getAllComponentEntitiesByComNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        componentEntityRepository.saveAndFlush(componentEntity);
+
+        // Get all the componentEntityList where comName equals to DEFAULT_COM_NAME
+        defaultComponentEntityShouldBeFound("comName.equals=" + DEFAULT_COM_NAME);
+
+        // Get all the componentEntityList where comName equals to UPDATED_COM_NAME
+        defaultComponentEntityShouldNotBeFound("comName.equals=" + UPDATED_COM_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllComponentEntitiesByComNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        componentEntityRepository.saveAndFlush(componentEntity);
+
+        // Get all the componentEntityList where comName in DEFAULT_COM_NAME or UPDATED_COM_NAME
+        defaultComponentEntityShouldBeFound("comName.in=" + DEFAULT_COM_NAME + "," + UPDATED_COM_NAME);
+
+        // Get all the componentEntityList where comName equals to UPDATED_COM_NAME
+        defaultComponentEntityShouldNotBeFound("comName.in=" + UPDATED_COM_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllComponentEntitiesByComNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        componentEntityRepository.saveAndFlush(componentEntity);
+
+        // Get all the componentEntityList where comName is not null
+        defaultComponentEntityShouldBeFound("comName.specified=true");
+
+        // Get all the componentEntityList where comName is null
+        defaultComponentEntityShouldNotBeFound("comName.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllComponentEntitiesByComTypeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        componentEntityRepository.saveAndFlush(componentEntity);
+
+        // Get all the componentEntityList where comType equals to DEFAULT_COM_TYPE
+        defaultComponentEntityShouldBeFound("comType.equals=" + DEFAULT_COM_TYPE);
+
+        // Get all the componentEntityList where comType equals to UPDATED_COM_TYPE
+        defaultComponentEntityShouldNotBeFound("comType.equals=" + UPDATED_COM_TYPE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllComponentEntitiesByComTypeIsInShouldWork() throws Exception {
+        // Initialize the database
+        componentEntityRepository.saveAndFlush(componentEntity);
+
+        // Get all the componentEntityList where comType in DEFAULT_COM_TYPE or UPDATED_COM_TYPE
+        defaultComponentEntityShouldBeFound("comType.in=" + DEFAULT_COM_TYPE + "," + UPDATED_COM_TYPE);
+
+        // Get all the componentEntityList where comType equals to UPDATED_COM_TYPE
+        defaultComponentEntityShouldNotBeFound("comType.in=" + UPDATED_COM_TYPE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllComponentEntitiesByComTypeIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        componentEntityRepository.saveAndFlush(componentEntity);
+
+        // Get all the componentEntityList where comType is not null
+        defaultComponentEntityShouldBeFound("comType.specified=true");
+
+        // Get all the componentEntityList where comType is null
+        defaultComponentEntityShouldNotBeFound("comType.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllComponentEntitiesByAppIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Application app = ApplicationResourceIntTest.createEntity(em);
+        em.persist(app);
+        em.flush();
+        componentEntity.setApp(app);
+        componentEntityRepository.saveAndFlush(componentEntity);
+        Long appId = app.getId();
+
+        // Get all the componentEntityList where app equals to appId
+        defaultComponentEntityShouldBeFound("appId.equals=" + appId);
+
+        // Get all the componentEntityList where app equals to appId + 1
+        defaultComponentEntityShouldNotBeFound("appId.equals=" + (appId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllComponentEntitiesByServerIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Server server = ServerResourceIntTest.createEntity(em);
+        em.persist(server);
+        em.flush();
+        componentEntity.setServer(server);
+        componentEntityRepository.saveAndFlush(componentEntity);
+        Long serverId = server.getId();
+
+        // Get all the componentEntityList where server equals to serverId
+        defaultComponentEntityShouldBeFound("serverId.equals=" + serverId);
+
+        // Get all the componentEntityList where server equals to serverId + 1
+        defaultComponentEntityShouldNotBeFound("serverId.equals=" + (serverId + 1));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned
+     */
+    private void defaultComponentEntityShouldBeFound(String filter) throws Exception {
+        restComponentEntityMockMvc.perform(get("/api/component-entities?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(componentEntity.getId().intValue())))
+            .andExpect(jsonPath("$.[*].comName").value(hasItem(DEFAULT_COM_NAME.toString())))
+            .andExpect(jsonPath("$.[*].comType").value(hasItem(DEFAULT_COM_TYPE.toString())));
+
+        // Check, that the count call also returns 1
+        restComponentEntityMockMvc.perform(get("/api/component-entities/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned
+     */
+    private void defaultComponentEntityShouldNotBeFound(String filter) throws Exception {
+        restComponentEntityMockMvc.perform(get("/api/component-entities?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restComponentEntityMockMvc.perform(get("/api/component-entities/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("0"));
+    }
+
 
     @Test
     @Transactional

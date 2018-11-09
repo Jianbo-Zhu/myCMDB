@@ -7,6 +7,8 @@ import net.jianbo.cmdb.domain.ComponentEntity;
 import net.jianbo.cmdb.repository.ApplicationRepository;
 import net.jianbo.cmdb.service.ApplicationService;
 import net.jianbo.cmdb.web.rest.errors.ExceptionTranslator;
+import net.jianbo.cmdb.service.dto.ApplicationCriteria;
+import net.jianbo.cmdb.service.ApplicationQueryService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -54,6 +56,9 @@ public class ApplicationResourceIntTest {
     private ApplicationService applicationService;
 
     @Autowired
+    private ApplicationQueryService applicationQueryService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -72,7 +77,7 @@ public class ApplicationResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final ApplicationResource applicationResource = new ApplicationResource(applicationService);
+        final ApplicationResource applicationResource = new ApplicationResource(applicationService, applicationQueryService);
         this.restApplicationMockMvc = MockMvcBuilders.standaloneSetup(applicationResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -206,6 +211,138 @@ public class ApplicationResourceIntTest {
             .andExpect(jsonPath("$.appName").value(DEFAULT_APP_NAME.toString()))
             .andExpect(jsonPath("$.environment").value(DEFAULT_ENVIRONMENT.toString()));
     }
+
+    @Test
+    @Transactional
+    public void getAllApplicationsByAppNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        applicationRepository.saveAndFlush(application);
+
+        // Get all the applicationList where appName equals to DEFAULT_APP_NAME
+        defaultApplicationShouldBeFound("appName.equals=" + DEFAULT_APP_NAME);
+
+        // Get all the applicationList where appName equals to UPDATED_APP_NAME
+        defaultApplicationShouldNotBeFound("appName.equals=" + UPDATED_APP_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllApplicationsByAppNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        applicationRepository.saveAndFlush(application);
+
+        // Get all the applicationList where appName in DEFAULT_APP_NAME or UPDATED_APP_NAME
+        defaultApplicationShouldBeFound("appName.in=" + DEFAULT_APP_NAME + "," + UPDATED_APP_NAME);
+
+        // Get all the applicationList where appName equals to UPDATED_APP_NAME
+        defaultApplicationShouldNotBeFound("appName.in=" + UPDATED_APP_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllApplicationsByAppNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        applicationRepository.saveAndFlush(application);
+
+        // Get all the applicationList where appName is not null
+        defaultApplicationShouldBeFound("appName.specified=true");
+
+        // Get all the applicationList where appName is null
+        defaultApplicationShouldNotBeFound("appName.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllApplicationsByEnvironmentIsEqualToSomething() throws Exception {
+        // Initialize the database
+        applicationRepository.saveAndFlush(application);
+
+        // Get all the applicationList where environment equals to DEFAULT_ENVIRONMENT
+        defaultApplicationShouldBeFound("environment.equals=" + DEFAULT_ENVIRONMENT);
+
+        // Get all the applicationList where environment equals to UPDATED_ENVIRONMENT
+        defaultApplicationShouldNotBeFound("environment.equals=" + UPDATED_ENVIRONMENT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllApplicationsByEnvironmentIsInShouldWork() throws Exception {
+        // Initialize the database
+        applicationRepository.saveAndFlush(application);
+
+        // Get all the applicationList where environment in DEFAULT_ENVIRONMENT or UPDATED_ENVIRONMENT
+        defaultApplicationShouldBeFound("environment.in=" + DEFAULT_ENVIRONMENT + "," + UPDATED_ENVIRONMENT);
+
+        // Get all the applicationList where environment equals to UPDATED_ENVIRONMENT
+        defaultApplicationShouldNotBeFound("environment.in=" + UPDATED_ENVIRONMENT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllApplicationsByEnvironmentIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        applicationRepository.saveAndFlush(application);
+
+        // Get all the applicationList where environment is not null
+        defaultApplicationShouldBeFound("environment.specified=true");
+
+        // Get all the applicationList where environment is null
+        defaultApplicationShouldNotBeFound("environment.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllApplicationsByComponentsIsEqualToSomething() throws Exception {
+        // Initialize the database
+        ComponentEntity components = ComponentEntityResourceIntTest.createEntity(em);
+        em.persist(components);
+        em.flush();
+        application.addComponents(components);
+        applicationRepository.saveAndFlush(application);
+        Long componentsId = components.getId();
+
+        // Get all the applicationList where components equals to componentsId
+        defaultApplicationShouldBeFound("componentsId.equals=" + componentsId);
+
+        // Get all the applicationList where components equals to componentsId + 1
+        defaultApplicationShouldNotBeFound("componentsId.equals=" + (componentsId + 1));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned
+     */
+    private void defaultApplicationShouldBeFound(String filter) throws Exception {
+        restApplicationMockMvc.perform(get("/api/applications?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(application.getId().intValue())))
+            .andExpect(jsonPath("$.[*].appName").value(hasItem(DEFAULT_APP_NAME.toString())))
+            .andExpect(jsonPath("$.[*].environment").value(hasItem(DEFAULT_ENVIRONMENT.toString())));
+
+        // Check, that the count call also returns 1
+        restApplicationMockMvc.perform(get("/api/applications/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned
+     */
+    private void defaultApplicationShouldNotBeFound(String filter) throws Exception {
+        restApplicationMockMvc.perform(get("/api/applications?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restApplicationMockMvc.perform(get("/api/applications/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("0"));
+    }
+
 
     @Test
     @Transactional

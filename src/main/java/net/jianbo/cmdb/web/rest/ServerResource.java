@@ -5,6 +5,8 @@ import net.jianbo.cmdb.domain.Server;
 import net.jianbo.cmdb.service.ServerService;
 import net.jianbo.cmdb.web.rest.errors.BadRequestAlertException;
 import net.jianbo.cmdb.web.rest.util.HeaderUtil;
+import net.jianbo.cmdb.service.dto.ServerCriteria;
+import net.jianbo.cmdb.service.ServerQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,8 +33,11 @@ public class ServerResource {
 
     private final ServerService serverService;
 
-    public ServerResource(ServerService serverService) {
+    private final ServerQueryService serverQueryService;
+
+    public ServerResource(ServerService serverService, ServerQueryService serverQueryService) {
         this.serverService = serverService;
+        this.serverQueryService = serverQueryService;
     }
 
     /**
@@ -80,13 +85,28 @@ public class ServerResource {
     /**
      * GET  /servers : get all the servers.
      *
+     * @param criteria the criterias which the requested entities should match
      * @return the ResponseEntity with status 200 (OK) and the list of servers in body
      */
     @GetMapping("/servers")
     @Timed
-    public List<Server> getAllServers() {
-        log.debug("REST request to get all Servers");
-        return serverService.findAll();
+    public ResponseEntity<List<Server>> getAllServers(ServerCriteria criteria) {
+        log.debug("REST request to get Servers by criteria: {}", criteria);
+        List<Server> entityList = serverQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(entityList);
+    }
+
+    /**
+    * GET  /servers/count : count all the servers.
+    *
+    * @param criteria the criterias which the requested entities should match
+    * @return the ResponseEntity with status 200 (OK) and the count in body
+    */
+    @GetMapping("/servers/count")
+    @Timed
+    public ResponseEntity<Long> countServers(ServerCriteria criteria) {
+        log.debug("REST request to count Servers by criteria: {}", criteria);
+        return ResponseEntity.ok().body(serverQueryService.countByCriteria(criteria));
     }
 
     /**

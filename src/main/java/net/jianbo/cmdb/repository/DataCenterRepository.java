@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface DataCenterRepository extends JpaRepository<DataCenter, Long> {
+public interface DataCenterRepository extends JpaRepository<DataCenter, Long>, JpaSpecificationExecutor<DataCenter> {
 
 }

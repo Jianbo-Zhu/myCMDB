@@ -5,6 +5,8 @@ import net.jianbo.cmdb.domain.Contactor;
 import net.jianbo.cmdb.service.ContactorService;
 import net.jianbo.cmdb.web.rest.errors.BadRequestAlertException;
 import net.jianbo.cmdb.web.rest.util.HeaderUtil;
+import net.jianbo.cmdb.service.dto.ContactorCriteria;
+import net.jianbo.cmdb.service.ContactorQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,8 +33,11 @@ public class ContactorResource {
 
     private final ContactorService contactorService;
 
-    public ContactorResource(ContactorService contactorService) {
+    private final ContactorQueryService contactorQueryService;
+
+    public ContactorResource(ContactorService contactorService, ContactorQueryService contactorQueryService) {
         this.contactorService = contactorService;
+        this.contactorQueryService = contactorQueryService;
     }
 
     /**
@@ -80,13 +85,28 @@ public class ContactorResource {
     /**
      * GET  /contactors : get all the contactors.
      *
+     * @param criteria the criterias which the requested entities should match
      * @return the ResponseEntity with status 200 (OK) and the list of contactors in body
      */
     @GetMapping("/contactors")
     @Timed
-    public List<Contactor> getAllContactors() {
-        log.debug("REST request to get all Contactors");
-        return contactorService.findAll();
+    public ResponseEntity<List<Contactor>> getAllContactors(ContactorCriteria criteria) {
+        log.debug("REST request to get Contactors by criteria: {}", criteria);
+        List<Contactor> entityList = contactorQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(entityList);
+    }
+
+    /**
+    * GET  /contactors/count : count all the contactors.
+    *
+    * @param criteria the criterias which the requested entities should match
+    * @return the ResponseEntity with status 200 (OK) and the count in body
+    */
+    @GetMapping("/contactors/count")
+    @Timed
+    public ResponseEntity<Long> countContactors(ContactorCriteria criteria) {
+        log.debug("REST request to count Contactors by criteria: {}", criteria);
+        return ResponseEntity.ok().body(contactorQueryService.countByCriteria(criteria));
     }
 
     /**

@@ -5,6 +5,8 @@ import net.jianbo.cmdb.domain.DataCenter;
 import net.jianbo.cmdb.service.DataCenterService;
 import net.jianbo.cmdb.web.rest.errors.BadRequestAlertException;
 import net.jianbo.cmdb.web.rest.util.HeaderUtil;
+import net.jianbo.cmdb.service.dto.DataCenterCriteria;
+import net.jianbo.cmdb.service.DataCenterQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,8 +33,11 @@ public class DataCenterResource {
 
     private final DataCenterService dataCenterService;
 
-    public DataCenterResource(DataCenterService dataCenterService) {
+    private final DataCenterQueryService dataCenterQueryService;
+
+    public DataCenterResource(DataCenterService dataCenterService, DataCenterQueryService dataCenterQueryService) {
         this.dataCenterService = dataCenterService;
+        this.dataCenterQueryService = dataCenterQueryService;
     }
 
     /**
@@ -80,13 +85,28 @@ public class DataCenterResource {
     /**
      * GET  /data-centers : get all the dataCenters.
      *
+     * @param criteria the criterias which the requested entities should match
      * @return the ResponseEntity with status 200 (OK) and the list of dataCenters in body
      */
     @GetMapping("/data-centers")
     @Timed
-    public List<DataCenter> getAllDataCenters() {
-        log.debug("REST request to get all DataCenters");
-        return dataCenterService.findAll();
+    public ResponseEntity<List<DataCenter>> getAllDataCenters(DataCenterCriteria criteria) {
+        log.debug("REST request to get DataCenters by criteria: {}", criteria);
+        List<DataCenter> entityList = dataCenterQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(entityList);
+    }
+
+    /**
+    * GET  /data-centers/count : count all the dataCenters.
+    *
+    * @param criteria the criterias which the requested entities should match
+    * @return the ResponseEntity with status 200 (OK) and the count in body
+    */
+    @GetMapping("/data-centers/count")
+    @Timed
+    public ResponseEntity<Long> countDataCenters(DataCenterCriteria criteria) {
+        log.debug("REST request to count DataCenters by criteria: {}", criteria);
+        return ResponseEntity.ok().body(dataCenterQueryService.countByCriteria(criteria));
     }
 
     /**
