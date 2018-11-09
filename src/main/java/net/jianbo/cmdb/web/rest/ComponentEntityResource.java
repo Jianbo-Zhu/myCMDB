@@ -5,6 +5,8 @@ import net.jianbo.cmdb.domain.ComponentEntity;
 import net.jianbo.cmdb.service.ComponentEntityService;
 import net.jianbo.cmdb.web.rest.errors.BadRequestAlertException;
 import net.jianbo.cmdb.web.rest.util.HeaderUtil;
+import net.jianbo.cmdb.service.dto.ComponentEntityCriteria;
+import net.jianbo.cmdb.service.ComponentEntityQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,8 +33,11 @@ public class ComponentEntityResource {
 
     private final ComponentEntityService componentEntityService;
 
-    public ComponentEntityResource(ComponentEntityService componentEntityService) {
+    private final ComponentEntityQueryService componentEntityQueryService;
+
+    public ComponentEntityResource(ComponentEntityService componentEntityService, ComponentEntityQueryService componentEntityQueryService) {
         this.componentEntityService = componentEntityService;
+        this.componentEntityQueryService = componentEntityQueryService;
     }
 
     /**
@@ -80,13 +85,28 @@ public class ComponentEntityResource {
     /**
      * GET  /component-entities : get all the componentEntities.
      *
+     * @param criteria the criterias which the requested entities should match
      * @return the ResponseEntity with status 200 (OK) and the list of componentEntities in body
      */
     @GetMapping("/component-entities")
     @Timed
-    public List<ComponentEntity> getAllComponentEntities() {
-        log.debug("REST request to get all ComponentEntities");
-        return componentEntityService.findAll();
+    public ResponseEntity<List<ComponentEntity>> getAllComponentEntities(ComponentEntityCriteria criteria) {
+        log.debug("REST request to get ComponentEntities by criteria: {}", criteria);
+        List<ComponentEntity> entityList = componentEntityQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(entityList);
+    }
+
+    /**
+    * GET  /component-entities/count : count all the componentEntities.
+    *
+    * @param criteria the criterias which the requested entities should match
+    * @return the ResponseEntity with status 200 (OK) and the count in body
+    */
+    @GetMapping("/component-entities/count")
+    @Timed
+    public ResponseEntity<Long> countComponentEntities(ComponentEntityCriteria criteria) {
+        log.debug("REST request to count ComponentEntities by criteria: {}", criteria);
+        return ResponseEntity.ok().body(componentEntityQueryService.countByCriteria(criteria));
     }
 
     /**

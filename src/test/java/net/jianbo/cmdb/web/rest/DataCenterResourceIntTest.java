@@ -7,6 +7,8 @@ import net.jianbo.cmdb.domain.Contactor;
 import net.jianbo.cmdb.repository.DataCenterRepository;
 import net.jianbo.cmdb.service.DataCenterService;
 import net.jianbo.cmdb.web.rest.errors.ExceptionTranslator;
+import net.jianbo.cmdb.service.dto.DataCenterCriteria;
+import net.jianbo.cmdb.service.DataCenterQueryService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -54,6 +56,9 @@ public class DataCenterResourceIntTest {
     private DataCenterService dataCenterService;
 
     @Autowired
+    private DataCenterQueryService dataCenterQueryService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -72,7 +77,7 @@ public class DataCenterResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final DataCenterResource dataCenterResource = new DataCenterResource(dataCenterService);
+        final DataCenterResource dataCenterResource = new DataCenterResource(dataCenterService, dataCenterQueryService);
         this.restDataCenterMockMvc = MockMvcBuilders.standaloneSetup(dataCenterResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -206,6 +211,138 @@ public class DataCenterResourceIntTest {
             .andExpect(jsonPath("$.dcName").value(DEFAULT_DC_NAME.toString()))
             .andExpect(jsonPath("$.address").value(DEFAULT_ADDRESS.toString()));
     }
+
+    @Test
+    @Transactional
+    public void getAllDataCentersByDcNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        dataCenterRepository.saveAndFlush(dataCenter);
+
+        // Get all the dataCenterList where dcName equals to DEFAULT_DC_NAME
+        defaultDataCenterShouldBeFound("dcName.equals=" + DEFAULT_DC_NAME);
+
+        // Get all the dataCenterList where dcName equals to UPDATED_DC_NAME
+        defaultDataCenterShouldNotBeFound("dcName.equals=" + UPDATED_DC_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDataCentersByDcNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        dataCenterRepository.saveAndFlush(dataCenter);
+
+        // Get all the dataCenterList where dcName in DEFAULT_DC_NAME or UPDATED_DC_NAME
+        defaultDataCenterShouldBeFound("dcName.in=" + DEFAULT_DC_NAME + "," + UPDATED_DC_NAME);
+
+        // Get all the dataCenterList where dcName equals to UPDATED_DC_NAME
+        defaultDataCenterShouldNotBeFound("dcName.in=" + UPDATED_DC_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDataCentersByDcNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        dataCenterRepository.saveAndFlush(dataCenter);
+
+        // Get all the dataCenterList where dcName is not null
+        defaultDataCenterShouldBeFound("dcName.specified=true");
+
+        // Get all the dataCenterList where dcName is null
+        defaultDataCenterShouldNotBeFound("dcName.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllDataCentersByAddressIsEqualToSomething() throws Exception {
+        // Initialize the database
+        dataCenterRepository.saveAndFlush(dataCenter);
+
+        // Get all the dataCenterList where address equals to DEFAULT_ADDRESS
+        defaultDataCenterShouldBeFound("address.equals=" + DEFAULT_ADDRESS);
+
+        // Get all the dataCenterList where address equals to UPDATED_ADDRESS
+        defaultDataCenterShouldNotBeFound("address.equals=" + UPDATED_ADDRESS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDataCentersByAddressIsInShouldWork() throws Exception {
+        // Initialize the database
+        dataCenterRepository.saveAndFlush(dataCenter);
+
+        // Get all the dataCenterList where address in DEFAULT_ADDRESS or UPDATED_ADDRESS
+        defaultDataCenterShouldBeFound("address.in=" + DEFAULT_ADDRESS + "," + UPDATED_ADDRESS);
+
+        // Get all the dataCenterList where address equals to UPDATED_ADDRESS
+        defaultDataCenterShouldNotBeFound("address.in=" + UPDATED_ADDRESS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDataCentersByAddressIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        dataCenterRepository.saveAndFlush(dataCenter);
+
+        // Get all the dataCenterList where address is not null
+        defaultDataCenterShouldBeFound("address.specified=true");
+
+        // Get all the dataCenterList where address is null
+        defaultDataCenterShouldNotBeFound("address.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllDataCentersByContactorIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Contactor contactor = ContactorResourceIntTest.createEntity(em);
+        em.persist(contactor);
+        em.flush();
+        dataCenter.setContactor(contactor);
+        dataCenterRepository.saveAndFlush(dataCenter);
+        Long contactorId = contactor.getId();
+
+        // Get all the dataCenterList where contactor equals to contactorId
+        defaultDataCenterShouldBeFound("contactorId.equals=" + contactorId);
+
+        // Get all the dataCenterList where contactor equals to contactorId + 1
+        defaultDataCenterShouldNotBeFound("contactorId.equals=" + (contactorId + 1));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned
+     */
+    private void defaultDataCenterShouldBeFound(String filter) throws Exception {
+        restDataCenterMockMvc.perform(get("/api/data-centers?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(dataCenter.getId().intValue())))
+            .andExpect(jsonPath("$.[*].dcName").value(hasItem(DEFAULT_DC_NAME.toString())))
+            .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS.toString())));
+
+        // Check, that the count call also returns 1
+        restDataCenterMockMvc.perform(get("/api/data-centers/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned
+     */
+    private void defaultDataCenterShouldNotBeFound(String filter) throws Exception {
+        restDataCenterMockMvc.perform(get("/api/data-centers?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restDataCenterMockMvc.perform(get("/api/data-centers/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("0"));
+    }
+
 
     @Test
     @Transactional
