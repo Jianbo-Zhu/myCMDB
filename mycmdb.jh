@@ -66,5 +66,7 @@ relationship ManyToOne {
 // Set service options to all except few
 service all with serviceImpl
 
+filter Server, Application, ComponentEntity, DataCenter, Contactor
+
 // Set an angular suffix
 // angularSuffix * with mySuffix
