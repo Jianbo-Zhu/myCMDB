@@ -56,6 +56,14 @@
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+            "fieldName": "createdTime",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "udpatedTime",
+            "fieldType": "LocalDate"
         }
     ],
     "relationships": [

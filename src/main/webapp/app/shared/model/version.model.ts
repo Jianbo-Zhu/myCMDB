@@ -1,3 +1,4 @@
+import { Moment } from 'moment';
 import { IComponentEntity } from 'app/shared/model//component-entity.model';
 
 export interface IVersion {
@@ -10,6 +11,8 @@ export interface IVersion {
   minorVersion?: number;
   hotfixNumber?: number;
   buildNumber?: number;
+  createdTime?: Moment;
+  udpatedTime?: Moment;
   comp?: IComponentEntity;
 }
 

@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Objects;
 
 /**
@@ -55,6 +56,12 @@ public class Version implements Serializable {
     @NotNull
     @Column(name = "build_number", nullable = false)
     private Integer buildNumber;
+
+    @Column(name = "created_time")
+    private LocalDate createdTime;
+
+    @Column(name = "udpated_time")
+    private LocalDate udpatedTime;
 
     @ManyToOne(optional = false)
     @NotNull
@@ -174,6 +181,32 @@ public class Version implements Serializable {
         this.buildNumber = buildNumber;
     }
 
+    public LocalDate getCreatedTime() {
+        return createdTime;
+    }
+
+    public Version createdTime(LocalDate createdTime) {
+        this.createdTime = createdTime;
+        return this;
+    }
+
+    public void setCreatedTime(LocalDate createdTime) {
+        this.createdTime = createdTime;
+    }
+
+    public LocalDate getUdpatedTime() {
+        return udpatedTime;
+    }
+
+    public Version udpatedTime(LocalDate udpatedTime) {
+        this.udpatedTime = udpatedTime;
+        return this;
+    }
+
+    public void setUdpatedTime(LocalDate udpatedTime) {
+        this.udpatedTime = udpatedTime;
+    }
+
     public ComponentEntity getComp() {
         return comp;
     }
@@ -220,6 +253,8 @@ public class Version implements Serializable {
             ", minorVersion=" + getMinorVersion() +
             ", hotfixNumber=" + getHotfixNumber() +
             ", buildNumber=" + getBuildNumber() +
+            ", createdTime='" + getCreatedTime() + "'" +
+            ", udpatedTime='" + getUdpatedTime() + "'" +
             "}";
     }
 }

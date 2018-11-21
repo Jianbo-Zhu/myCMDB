@@ -23,6 +23,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 
 
@@ -64,6 +66,12 @@ public class VersionResourceIntTest {
 
     private static final Integer DEFAULT_BUILD_NUMBER = 1;
     private static final Integer UPDATED_BUILD_NUMBER = 2;
+
+    private static final LocalDate DEFAULT_CREATED_TIME = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_CREATED_TIME = LocalDate.now(ZoneId.systemDefault());
+
+    private static final LocalDate DEFAULT_UDPATED_TIME = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_UDPATED_TIME = LocalDate.now(ZoneId.systemDefault());
 
     @Autowired
     private VersionRepository versionRepository;
@@ -113,7 +121,9 @@ public class VersionResourceIntTest {
             .majorVersion(DEFAULT_MAJOR_VERSION)
             .minorVersion(DEFAULT_MINOR_VERSION)
             .hotfixNumber(DEFAULT_HOTFIX_NUMBER)
-            .buildNumber(DEFAULT_BUILD_NUMBER);
+            .buildNumber(DEFAULT_BUILD_NUMBER)
+            .createdTime(DEFAULT_CREATED_TIME)
+            .udpatedTime(DEFAULT_UDPATED_TIME);
         // Add required entity
         ComponentEntity componentEntity = ComponentEntityResourceIntTest.createEntity(em);
         em.persist(componentEntity);
@@ -150,6 +160,8 @@ public class VersionResourceIntTest {
         assertThat(testVersion.getMinorVersion()).isEqualTo(DEFAULT_MINOR_VERSION);
         assertThat(testVersion.getHotfixNumber()).isEqualTo(DEFAULT_HOTFIX_NUMBER);
         assertThat(testVersion.getBuildNumber()).isEqualTo(DEFAULT_BUILD_NUMBER);
+        assertThat(testVersion.getCreatedTime()).isEqualTo(DEFAULT_CREATED_TIME);
+        assertThat(testVersion.getUdpatedTime()).isEqualTo(DEFAULT_UDPATED_TIME);
     }
 
     @Test
@@ -333,7 +345,9 @@ public class VersionResourceIntTest {
             .andExpect(jsonPath("$.[*].majorVersion").value(hasItem(DEFAULT_MAJOR_VERSION)))
             .andExpect(jsonPath("$.[*].minorVersion").value(hasItem(DEFAULT_MINOR_VERSION)))
             .andExpect(jsonPath("$.[*].hotfixNumber").value(hasItem(DEFAULT_HOTFIX_NUMBER)))
-            .andExpect(jsonPath("$.[*].buildNumber").value(hasItem(DEFAULT_BUILD_NUMBER)));
+            .andExpect(jsonPath("$.[*].buildNumber").value(hasItem(DEFAULT_BUILD_NUMBER)))
+            .andExpect(jsonPath("$.[*].createdTime").value(hasItem(DEFAULT_CREATED_TIME.toString())))
+            .andExpect(jsonPath("$.[*].udpatedTime").value(hasItem(DEFAULT_UDPATED_TIME.toString())));
     }
     
     @Test
@@ -354,7 +368,9 @@ public class VersionResourceIntTest {
             .andExpect(jsonPath("$.majorVersion").value(DEFAULT_MAJOR_VERSION))
             .andExpect(jsonPath("$.minorVersion").value(DEFAULT_MINOR_VERSION))
             .andExpect(jsonPath("$.hotfixNumber").value(DEFAULT_HOTFIX_NUMBER))
-            .andExpect(jsonPath("$.buildNumber").value(DEFAULT_BUILD_NUMBER));
+            .andExpect(jsonPath("$.buildNumber").value(DEFAULT_BUILD_NUMBER))
+            .andExpect(jsonPath("$.createdTime").value(DEFAULT_CREATED_TIME.toString()))
+            .andExpect(jsonPath("$.udpatedTime").value(DEFAULT_UDPATED_TIME.toString()));
     }
 
     @Test
@@ -385,7 +401,9 @@ public class VersionResourceIntTest {
             .majorVersion(UPDATED_MAJOR_VERSION)
             .minorVersion(UPDATED_MINOR_VERSION)
             .hotfixNumber(UPDATED_HOTFIX_NUMBER)
-            .buildNumber(UPDATED_BUILD_NUMBER);
+            .buildNumber(UPDATED_BUILD_NUMBER)
+            .createdTime(UPDATED_CREATED_TIME)
+            .udpatedTime(UPDATED_UDPATED_TIME);
 
         restVersionMockMvc.perform(put("/api/versions")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -404,6 +422,8 @@ public class VersionResourceIntTest {
         assertThat(testVersion.getMinorVersion()).isEqualTo(UPDATED_MINOR_VERSION);
         assertThat(testVersion.getHotfixNumber()).isEqualTo(UPDATED_HOTFIX_NUMBER);
         assertThat(testVersion.getBuildNumber()).isEqualTo(UPDATED_BUILD_NUMBER);
+        assertThat(testVersion.getCreatedTime()).isEqualTo(UPDATED_CREATED_TIME);
+        assertThat(testVersion.getUdpatedTime()).isEqualTo(UPDATED_UDPATED_TIME);
     }
 
     @Test
