@@ -2,34 +2,34 @@
   "myCmdbApp": {
     "server": {
       "home": {
-        "title": "Servers",
-        "createLabel": "创建新 Server",
-        "createOrEditLabel": "创建或编辑 Server"
+        "title": "服务器",
+        "createLabel": "创建新 服务器",
+        "createOrEditLabel": "创建或编辑 服务器"
       },
-      "created": "Server {{ param }} 创建成功",
-      "updated": "Server {{ param }} 更新成功",
-      "deleted": "Server {{ param }} 删除成功",
+      "created": "服务器 {{ param }} 创建成功",
+      "updated": "服务器 {{ param }} 更新成功",
+      "deleted": "服务器 {{ param }} 删除成功",
       "delete": {
-        "question": "你确定要删除 Server {{ id }} 吗？"
+        "question": "你确定要删除 服务器 {{ id }} 吗？"
       },
       "detail": {
-        "title": "Server"
+        "title": "服务器"
       },
-      "hostname": "Hostname",
-      "ipAddress": "Ip Address",
-      "macAddress": "Mac Address",
-      "position": "Position",
-      "brand": "Brand",
-      "memSize": "Mem Size",
-      "coreNo": "Core No",
-      "osVersion": "Os Version",
-      "vendor": "Vendor",
-      "purchaseDate": "Purchase Date",
-      "warrantyDate": "Warranty Date",
-      "components": "Components",
-      "dataCenter": "Data Center",
-      "owner": "Owner",
-      "vendorContact": "Vendor Contact"
+      "hostname": "主机名",
+      "ipAddress": "Ip地址",
+      "macAddress": "Mac地址",
+      "position": "位置",
+      "brand": "品牌",
+      "memSize": "内存",
+      "coreNo": "CPU核数",
+      "osVersion": "操作系统",
+      "vendor": "供应商",
+      "purchaseDate": "采购日期",
+      "warrantyDate": "维保到期日",
+      "components": "模块",
+      "dataCenter": "数据中心",
+      "owner": "联系人",
+      "vendorContact": "供应商联系人"
     }
   }
 }

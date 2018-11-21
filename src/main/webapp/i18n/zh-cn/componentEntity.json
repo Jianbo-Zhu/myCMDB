@@ -2,24 +2,24 @@
   "myCmdbApp": {
     "componentEntity": {
       "home": {
-        "title": "Component Entities",
-        "createLabel": "创建新 Component Entity",
-        "createOrEditLabel": "创建或编辑 Component Entity"
+        "title": "模块",
+        "createLabel": "创建新 模块",
+        "createOrEditLabel": "创建或编辑 模块"
       },
-      "created": "Component Entity {{ param }} 创建成功",
-      "updated": "Component Entity {{ param }} 更新成功",
-      "deleted": "Component Entity {{ param }} 删除成功",
+      "created": "模块 {{ param }} 创建成功",
+      "updated": "模块 {{ param }} 更新成功",
+      "deleted": "模块 {{ param }} 删除成功",
       "delete": {
-        "question": "你确定要删除 Component Entity {{ id }} 吗？"
+        "question": "你确定要删除 模块 {{ id }} 吗？"
       },
       "detail": {
-        "title": "Component Entity"
+        "title": "模块"
       },
-      "comName": "Com Name",
-      "comType": "Com Type",
-      "versions": "Versions",
-      "app": "App",
-      "server": "Server"
+      "comName": "模块名",
+      "comType": "模块类型",
+      "versions": "版本",
+      "app": "系统",
+      "server": "服务器"
     }
   }
 }

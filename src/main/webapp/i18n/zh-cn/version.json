@@ -2,30 +2,30 @@
   "myCmdbApp": {
     "version": {
       "home": {
-        "title": "Versions",
-        "createLabel": "创建新 Version",
-        "createOrEditLabel": "创建或编辑 Version"
+        "title": "版本",
+        "createLabel": "创建新 版本",
+        "createOrEditLabel": "创建或编辑 版本"
       },
-      "created": "Version {{ param }} 创建成功",
-      "updated": "Version {{ param }} 更新成功",
-      "deleted": "Version {{ param }} 删除成功",
+      "created": "版本 {{ param }} 创建成功",
+      "updated": "版本 {{ param }} 更新成功",
+      "deleted": "版本 {{ param }} 删除成功",
       "delete": {
-        "question": "你确定要删除 Version {{ id }} 吗？"
+        "question": "你确定要删除 版本 {{ id }} 吗？"
       },
       "detail": {
-        "title": "Version"
+        "title": "版本"
       },
-      "versionString": "Version String",
-      "deployedBy": "Deployed By",
-      "gitCommit": "Git Commit",
-      "gitCommitter": "Git Committer",
-      "majorVersion": "Major Version",
-      "minorVersion": "Minor Version",
-      "hotfixNumber": "Hotfix Number",
-      "buildNumber": "Build Number",
-      "createdTime": "Created Time",
-      "udpatedTime": "Udpated Time",
-      "comp": "Comp"
+      "versionString": "版本号",
+      "deployedBy": "发布者",
+      "gitCommit": "Git哈希值",
+      "gitCommitter": "Git提交者",
+      "majorVersion": "主版本号",
+      "minorVersion": "小版本号",
+      "hotfixNumber": "Hotfix编号",
+      "buildNumber": "Build#",
+      "createdTime": "新建时间",
+      "udpatedTime": "更新时间",
+      "comp": "模块"
     }
   }
 }

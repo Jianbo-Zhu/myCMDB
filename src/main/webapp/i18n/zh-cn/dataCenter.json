@@ -2,22 +2,22 @@
   "myCmdbApp": {
     "dataCenter": {
       "home": {
-        "title": "Data Centers",
-        "createLabel": "创建新 Data Center",
-        "createOrEditLabel": "创建或编辑 Data Center"
+        "title": "数据中心",
+        "createLabel": "创建新 数据中心",
+        "createOrEditLabel": "创建或编辑 数据中心"
       },
-      "created": "Data Center {{ param }} 创建成功",
-      "updated": "Data Center {{ param }} 更新成功",
-      "deleted": "Data Center {{ param }} 删除成功",
+      "created": "数据中心 {{ param }} 创建成功",
+      "updated": "数据中心 {{ param }} 更新成功",
+      "deleted": "数据中心 {{ param }} 删除成功",
       "delete": {
-        "question": "你确定要删除 Data Center {{ id }} 吗？"
+        "question": "你确定要删除 数据中心 {{ id }} 吗？"
       },
       "detail": {
-        "title": "Data Center"
+        "title": "数据中心"
       },
-      "dcName": "Dc Name",
-      "address": "Address",
-      "contactor": "Contactor"
+      "dcName": "数据中心",
+      "address": "地址",
+      "contactor": "联系人"
     }
   }
 }

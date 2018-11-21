@@ -26,7 +26,8 @@ export class Version extends React.Component<IVersionProps> {
         <h2 id="version-heading">
           <Translate contentKey="myCmdbApp.version.home.title">Versions</Translate>
           <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
-            <FontAwesomeIcon icon="plus" />&nbsp;
+            <FontAwesomeIcon icon="plus" />
+            &nbsp;
             <Translate contentKey="myCmdbApp.version.home.createLabel">Create new Version</Translate>
           </Link>
         </h2>
@@ -36,6 +37,9 @@ export class Version extends React.Component<IVersionProps> {
               <tr>
                 <th>
                   <Translate contentKey="global.field.id">ID</Translate>
+                </th>
+                <th>
+                  <Translate contentKey="myCmdbApp.version.comp">Comp</Translate>
                 </th>
                 <th>
                   <Translate contentKey="myCmdbApp.version.versionString">Version String</Translate>
@@ -67,9 +71,6 @@ export class Version extends React.Component<IVersionProps> {
                 <th>
                   <Translate contentKey="myCmdbApp.version.udpatedTime">Udpated Time</Translate>
                 </th>
-                <th>
-                  <Translate contentKey="myCmdbApp.version.comp">Comp</Translate>
-                </th>
                 <th />
               </tr>
             </thead>
@@ -81,6 +82,7 @@ export class Version extends React.Component<IVersionProps> {
                       {version.id}
                     </Button>
                   </td>
+                  <td>{version.comp ? <Link to={`component-entity/${version.comp.id}`}>{version.comp.comName}</Link> : ''}</td>
                   <td>{version.versionString}</td>
                   <td>{version.deployedBy}</td>
                   <td>{version.gitCommit}</td>
@@ -95,7 +97,6 @@ export class Version extends React.Component<IVersionProps> {
                   <td>
                     <TextFormat type="date" value={version.udpatedTime} format={APP_LOCAL_DATE_FORMAT} />
                   </td>
-                  <td>{version.comp ? <Link to={`component-entity/${version.comp.id}`}>{version.comp.comName}</Link> : ''}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${version.id}`} color="info" size="sm">

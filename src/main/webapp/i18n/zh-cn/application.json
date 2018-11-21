@@ -2,22 +2,22 @@
   "myCmdbApp": {
     "application": {
       "home": {
-        "title": "Applications",
-        "createLabel": "创建新 Application",
-        "createOrEditLabel": "创建或编辑 Application"
+        "title": "系统",
+        "createLabel": "创建新 系统",
+        "createOrEditLabel": "创建或编辑 系统"
       },
-      "created": "Application {{ param }} 创建成功",
-      "updated": "Application {{ param }} 更新成功",
-      "deleted": "Application {{ param }} 删除成功",
+      "created": "系统 {{ param }} 创建成功",
+      "updated": "系统 {{ param }} 更新成功",
+      "deleted": "系统 {{ param }} 删除成功",
       "delete": {
-        "question": "你确定要删除 Application {{ id }} 吗？"
+        "question": "你确定要删除 系统 {{ id }} 吗？"
       },
       "detail": {
-        "title": "Application"
+        "title": "系统"
       },
-      "appName": "App Name",
-      "environment": "Environment",
-      "components": "Components"
+      "appName": "系统",
+      "environment": "环境",
+      "components": "模块"
     }
   }
 }
