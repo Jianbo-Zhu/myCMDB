@@ -3,6 +3,7 @@ package net.jianbo.cmdb.web.rest;
 import net.jianbo.cmdb.MyCmdbApp;
 
 import net.jianbo.cmdb.domain.ComponentEntity;
+import net.jianbo.cmdb.domain.Version;
 import net.jianbo.cmdb.domain.Application;
 import net.jianbo.cmdb.domain.Server;
 import net.jianbo.cmdb.repository.ComponentEntityRepository;
@@ -296,6 +297,25 @@ public class ComponentEntityResourceIntTest {
         // Get all the componentEntityList where comType is null
         defaultComponentEntityShouldNotBeFound("comType.specified=false");
     }
+
+    @Test
+    @Transactional
+    public void getAllComponentEntitiesByVersionsIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Version versions = VersionResourceIntTest.createEntity(em);
+        em.persist(versions);
+        em.flush();
+        componentEntity.addVersions(versions);
+        componentEntityRepository.saveAndFlush(componentEntity);
+        Long versionsId = versions.getId();
+
+        // Get all the componentEntityList where versions equals to versionsId
+        defaultComponentEntityShouldBeFound("versionsId.equals=" + versionsId);
+
+        // Get all the componentEntityList where versions equals to versionsId + 1
+        defaultComponentEntityShouldNotBeFound("versionsId.equals=" + (versionsId + 1));
+    }
+
 
     @Test
     @Transactional

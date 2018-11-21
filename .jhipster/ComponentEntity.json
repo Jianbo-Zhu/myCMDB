@@ -19,6 +19,12 @@
     ],
     "relationships": [
         {
+            "relationshipType": "one-to-many",
+            "relationshipName": "versions",
+            "otherEntityName": "version",
+            "otherEntityRelationshipName": "comp"
+        },
+        {
             "relationshipType": "many-to-one",
             "relationshipValidateRules": "required",
             "relationshipName": "app",

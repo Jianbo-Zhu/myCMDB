@@ -17,6 +17,7 @@
       },
       "comName": "Com Name",
       "comType": "Com Type",
+      "versions": "Versions",
       "app": "App",
       "server": "Server"
     }

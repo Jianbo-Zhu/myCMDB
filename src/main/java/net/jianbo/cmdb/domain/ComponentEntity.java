@@ -1,5 +1,6 @@
 package net.jianbo.cmdb.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -8,6 +9,8 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 import net.jianbo.cmdb.domain.enumeration.ComponentType;
@@ -35,6 +38,9 @@ public class ComponentEntity implements Serializable {
     @Column(name = "com_type", nullable = false)
     private ComponentType comType;
 
+    @OneToMany(mappedBy = "comp")
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Version> versions = new HashSet<>();
     @ManyToOne(optional = false)
     @NotNull
     @JsonIgnoreProperties("components")
@@ -78,6 +84,31 @@ public class ComponentEntity implements Serializable {
 
     public void setComType(ComponentType comType) {
         this.comType = comType;
+    }
+
+    public Set<Version> getVersions() {
+        return versions;
+    }
+
+    public ComponentEntity versions(Set<Version> versions) {
+        this.versions = versions;
+        return this;
+    }
+
+    public ComponentEntity addVersions(Version version) {
+        this.versions.add(version);
+        version.setComp(this);
+        return this;
+    }
+
+    public ComponentEntity removeVersions(Version version) {
+        this.versions.remove(version);
+        version.setComp(null);
+        return this;
+    }
+
+    public void setVersions(Set<Version> versions) {
+        this.versions = versions;
     }
 
     public Application getApp() {

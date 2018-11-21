@@ -1,3 +1,4 @@
+import { IVersion } from 'app/shared/model//version.model';
 import { IApplication } from 'app/shared/model//application.model';
 import { IServer } from 'app/shared/model//server.model';
 
@@ -10,6 +11,7 @@ export interface IComponentEntity {
   id?: number;
   comName?: string;
   comType?: ComponentType;
+  versions?: IVersion[];
   app?: IApplication;
   server?: IServer;
 }

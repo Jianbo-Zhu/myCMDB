@@ -13,6 +13,7 @@
         "application": "Application",
         "componentEntity": "Component Entity",
         "server": "Server",
+        "version": "Version",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

@@ -34,6 +34,8 @@ public class ComponentEntityCriteria implements Serializable {
 
     private ComponentTypeFilter comType;
 
+    private LongFilter versionsId;
+
     private LongFilter appId;
 
     private LongFilter serverId;
@@ -63,6 +65,14 @@ public class ComponentEntityCriteria implements Serializable {
 
     public void setComType(ComponentTypeFilter comType) {
         this.comType = comType;
+    }
+
+    public LongFilter getVersionsId() {
+        return versionsId;
+    }
+
+    public void setVersionsId(LongFilter versionsId) {
+        this.versionsId = versionsId;
     }
 
     public LongFilter getAppId() {
@@ -95,6 +105,7 @@ public class ComponentEntityCriteria implements Serializable {
             Objects.equals(id, that.id) &&
             Objects.equals(comName, that.comName) &&
             Objects.equals(comType, that.comType) &&
+            Objects.equals(versionsId, that.versionsId) &&
             Objects.equals(appId, that.appId) &&
             Objects.equals(serverId, that.serverId);
     }
@@ -105,6 +116,7 @@ public class ComponentEntityCriteria implements Serializable {
         id,
         comName,
         comType,
+        versionsId,
         appId,
         serverId
         );
@@ -116,6 +128,7 @@ public class ComponentEntityCriteria implements Serializable {
                 (id != null ? "id=" + id + ", " : "") +
                 (comName != null ? "comName=" + comName + ", " : "") +
                 (comType != null ? "comType=" + comType + ", " : "") +
+                (versionsId != null ? "versionsId=" + versionsId + ", " : "") +
                 (appId != null ? "appId=" + appId + ", " : "") +
                 (serverId != null ? "serverId=" + serverId + ", " : "") +
             "}";

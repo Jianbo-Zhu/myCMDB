@@ -32,6 +32,10 @@ import componentEntity, {
 import server, {
   ServerState
 } from 'app/entities/server/server.reducer';
+// prettier-ignore
+import version, {
+  VersionState
+} from 'app/entities/version/version.reducer';
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 
 export interface IRootState {
@@ -50,6 +54,7 @@ export interface IRootState {
   readonly application: ApplicationState;
   readonly componentEntity: ComponentEntityState;
   readonly server: ServerState;
+  readonly version: VersionState;
   /* jhipster-needle-add-reducer-type - JHipster will add reducer type here */
   readonly loadingBar: any;
 }
@@ -70,6 +75,7 @@ const rootReducer = combineReducers<IRootState>({
   application,
   componentEntity,
   server,
+  version,
   /* jhipster-needle-add-reducer-combine - JHipster will add reducer here */
   loadingBar
 });
