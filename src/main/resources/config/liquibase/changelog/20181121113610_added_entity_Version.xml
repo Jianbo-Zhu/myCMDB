@@ -54,6 +54,14 @@
                 <constraints nullable="false" />
             </column>
 
+            <column name="created_time" type="date">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="udpated_time" type="date">
+                <constraints nullable="true" />
+            </column>
+
             <column name="comp_id" type="bigint">
                 <constraints nullable="false" />
             </column>

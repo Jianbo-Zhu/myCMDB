@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Col, Row, Table } from 'reactstrap';
 // tslint:disable-next-line:no-unused-variable
-import { Translate, ICrudGetAllAction } from 'react-jhipster';
+import { Translate, ICrudGetAllAction, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
@@ -62,6 +62,12 @@ export class Version extends React.Component<IVersionProps> {
                   <Translate contentKey="myCmdbApp.version.buildNumber">Build Number</Translate>
                 </th>
                 <th>
+                  <Translate contentKey="myCmdbApp.version.createdTime">Created Time</Translate>
+                </th>
+                <th>
+                  <Translate contentKey="myCmdbApp.version.udpatedTime">Udpated Time</Translate>
+                </th>
+                <th>
                   <Translate contentKey="myCmdbApp.version.comp">Comp</Translate>
                 </th>
                 <th />
@@ -83,6 +89,12 @@ export class Version extends React.Component<IVersionProps> {
                   <td>{version.minorVersion}</td>
                   <td>{version.hotfixNumber}</td>
                   <td>{version.buildNumber}</td>
+                  <td>
+                    <TextFormat type="date" value={version.createdTime} format={APP_LOCAL_DATE_FORMAT} />
+                  </td>
+                  <td>
+                    <TextFormat type="date" value={version.udpatedTime} format={APP_LOCAL_DATE_FORMAT} />
+                  </td>
                   <td>{version.comp ? <Link to={`component-entity/${version.comp.id}`}>{version.comp.comName}</Link> : ''}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">

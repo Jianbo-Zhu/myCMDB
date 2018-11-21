@@ -23,6 +23,8 @@
       "minorVersion": "Minor Version",
       "hotfixNumber": "Hotfix Number",
       "buildNumber": "Build Number",
+      "createdTime": "Created Time",
+      "udpatedTime": "Udpated Time",
       "comp": "Comp"
     }
   }

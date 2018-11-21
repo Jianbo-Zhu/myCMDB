@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col } from 'reactstrap';
 // tslint:disable-next-line:no-unused-variable
-import { Translate, ICrudGetAction } from 'react-jhipster';
+import { Translate, ICrudGetAction, TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
@@ -76,6 +76,22 @@ export class VersionDetail extends React.Component<IVersionDetailProps> {
               </span>
             </dt>
             <dd>{versionEntity.buildNumber}</dd>
+            <dt>
+              <span id="createdTime">
+                <Translate contentKey="myCmdbApp.version.createdTime">Created Time</Translate>
+              </span>
+            </dt>
+            <dd>
+              <TextFormat value={versionEntity.createdTime} type="date" format={APP_LOCAL_DATE_FORMAT} />
+            </dd>
+            <dt>
+              <span id="udpatedTime">
+                <Translate contentKey="myCmdbApp.version.udpatedTime">Udpated Time</Translate>
+              </span>
+            </dt>
+            <dd>
+              <TextFormat value={versionEntity.udpatedTime} type="date" format={APP_LOCAL_DATE_FORMAT} />
+            </dd>
             <dt>
               <Translate contentKey="myCmdbApp.version.comp">Comp</Translate>
             </dt>

@@ -27,7 +27,9 @@ entity Version {
     majorVersion Integer required,
     minorVersion Integer required,
     hotfixNumber Integer required,
-    buildNumber Integer required
+    buildNumber Integer required,
+    createdTime LocalDate,
+    udpatedTime LocalDate
 }
 
 relationship OneToMany {

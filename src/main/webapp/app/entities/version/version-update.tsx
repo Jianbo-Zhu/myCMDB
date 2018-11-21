@@ -208,6 +208,18 @@ export class VersionUpdate extends React.Component<IVersionUpdateProps, IVersion
                   />
                 </AvGroup>
                 <AvGroup>
+                  <Label id="createdTimeLabel" for="createdTime">
+                    <Translate contentKey="myCmdbApp.version.createdTime">Created Time</Translate>
+                  </Label>
+                  <AvField id="version-createdTime" type="date" className="form-control" name="createdTime" />
+                </AvGroup>
+                <AvGroup>
+                  <Label id="udpatedTimeLabel" for="udpatedTime">
+                    <Translate contentKey="myCmdbApp.version.udpatedTime">Udpated Time</Translate>
+                  </Label>
+                  <AvField id="version-udpatedTime" type="date" className="form-control" name="udpatedTime" />
+                </AvGroup>
+                <AvGroup>
                   <Label for="comp.comName">
                     <Translate contentKey="myCmdbApp.version.comp">Comp</Translate>
                   </Label>
