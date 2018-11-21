@@ -1,0 +1,46 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: mycmdb-mysql
+  namespace: ops-tools
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: mycmdb-mysql
+    spec:
+      volumes:
+      - name: data
+        emptyDir: {}
+      containers:
+      - name: mysql
+        image: ops-tools/mysql:5.7.22
+        env:
+        - name: MYSQL_USER
+          value: root
+        - name: MYSQL_ALLOW_EMPTY_PASSWORD
+          value: 'yes'
+        - name: MYSQL_DATABASE
+          value: mycmdb
+        args:
+        - --lower_case_table_names=1
+        - --skip-ssl
+        - --character_set_server=utf8mb4
+        - --explicit_defaults_for_timestamp
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+        - name: data
+          mountPath: /var/lib/mysql/
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mycmdb-mysql
+  namespace: ops-tools
+spec:
+  selector:
+    app: mycmdb-mysql
+  ports:
+  - port: 3306
