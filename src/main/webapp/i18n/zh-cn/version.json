@@ -1,0 +1,29 @@
+{
+  "myCmdbApp": {
+    "version": {
+      "home": {
+        "title": "Versions",
+        "createLabel": "创建新 Version",
+        "createOrEditLabel": "创建或编辑 Version"
+      },
+      "created": "Version {{ param }} 创建成功",
+      "updated": "Version {{ param }} 更新成功",
+      "deleted": "Version {{ param }} 删除成功",
+      "delete": {
+        "question": "你确定要删除 Version {{ id }} 吗？"
+      },
+      "detail": {
+        "title": "Version"
+      },
+      "versionString": "Version String",
+      "deployedBy": "Deployed By",
+      "gitCommit": "Git Commit",
+      "gitCommitter": "Git Committer",
+      "majorVersion": "Major Version",
+      "minorVersion": "Minor Version",
+      "hotfixNumber": "Hotfix Number",
+      "buildNumber": "Build Number",
+      "comp": "Comp"
+    }
+  }
+}

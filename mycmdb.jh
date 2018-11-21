@@ -19,6 +19,21 @@ entity ComponentEntity {
     comType ComponentType required
 }
 
+entity Version {
+	versionString String required,
+	deployedBy String required,
+    gitCommit String required,
+    gitCommitter String required,
+    majorVersion Integer required,
+    minorVersion Integer required,
+    hotfixNumber Integer required,
+    buildNumber Integer required
+}
+
+relationship OneToMany {
+	ComponentEntity{ versions(versionString) } to Version { comp(comName) required }
+}
+
 enum ComponentType{
 	MODULE, MIDDLEWARE
 }

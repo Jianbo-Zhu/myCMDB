@@ -45,6 +45,8 @@ public class CacheConfiguration {
             cm.createCache(net.jianbo.cmdb.domain.ComponentEntity.class.getName(), jcacheConfiguration);
             cm.createCache(net.jianbo.cmdb.domain.Server.class.getName(), jcacheConfiguration);
             cm.createCache(net.jianbo.cmdb.domain.Server.class.getName() + ".components", jcacheConfiguration);
+            cm.createCache(net.jianbo.cmdb.domain.ComponentEntity.class.getName() + ".versions", jcacheConfiguration);
+            cm.createCache(net.jianbo.cmdb.domain.Version.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

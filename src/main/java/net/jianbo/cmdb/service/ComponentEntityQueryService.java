@@ -89,6 +89,10 @@ public class ComponentEntityQueryService extends QueryService<ComponentEntity> {
             if (criteria.getComType() != null) {
                 specification = specification.and(buildSpecification(criteria.getComType(), ComponentEntity_.comType));
             }
+            if (criteria.getVersionsId() != null) {
+                specification = specification.and(buildSpecification(criteria.getVersionsId(),
+                    root -> root.join(ComponentEntity_.versions, JoinType.LEFT).get(Version_.id)));
+            }
             if (criteria.getAppId() != null) {
                 specification = specification.and(buildSpecification(criteria.getAppId(),
                     root -> root.join(ComponentEntity_.app, JoinType.LEFT).get(Application_.id)));

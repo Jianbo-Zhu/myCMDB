@@ -9,6 +9,7 @@ import DataCenter from './data-center';
 import Application from './application';
 import ComponentEntity from './component-entity';
 import Server from './server';
+import Version from './version';
 /* jhipster-needle-add-route-import - JHipster will add routes here */
 
 const Routes = ({ match }) => (
@@ -20,6 +21,7 @@ const Routes = ({ match }) => (
       <ErrorBoundaryRoute path={`${match.url}/application`} component={Application} />
       <ErrorBoundaryRoute path={`${match.url}/component-entity`} component={ComponentEntity} />
       <ErrorBoundaryRoute path={`${match.url}/server`} component={Server} />
+      <ErrorBoundaryRoute path={`${match.url}/version`} component={Version} />
       {/* jhipster-needle-add-route-path - JHipster will routes here */}
     </Switch>
   </div>
