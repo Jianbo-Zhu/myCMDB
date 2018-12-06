@@ -1,13 +1,14 @@
 package net.jianbo.cmdb.config;
 
-import net.jianbo.cmdb.security.*;
-import net.jianbo.cmdb.security.jwt.*;
-
+import net.jianbo.cmdb.security.AuthoritiesConstants;
+import net.jianbo.cmdb.security.jwt.JWTConfigurer;
+import net.jianbo.cmdb.security.jwt.TokenProvider;
 import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
+import org.springframework.ldap.core.support.LdapContextSource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -60,11 +61,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         }
     }
 
-    @Override
-    @Bean
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
+//    @Override
+//    @Bean
+//    public AuthenticationManager authenticationManagerBean() throws Exception {
+//        return super.authenticationManagerBean();
+//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -117,5 +118,26 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private JWTConfigurer securityConfigurerAdapter() {
         return new JWTConfigurer(tokenProvider);
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.ldapAuthentication()
+            .userSearchBase("ou=People")
+            .userSearchFilter("(uid={0})")
+            .groupSearchBase("ou=Group")
+            .groupSearchFilter("member={0}")
+            .contextSource(getContextSource());
+    }
+    @Bean
+    public LdapContextSource getContextSource() {
+        LdapContextSource contextSource = new LdapContextSource();
+        contextSource.setUrl("ldap://ldap.51xf.cn");
+        contextSource.setBase("dc=51xf,dc=cn");
+        contextSource.setUserDn("cn=root,dc=51xf,dc=cn");
+        contextSource.setPassword("ilanni");
+        contextSource.afterPropertiesSet(); //needed otherwise you will have a NullPointerException in spring
+
+        return contextSource;
     }
 }

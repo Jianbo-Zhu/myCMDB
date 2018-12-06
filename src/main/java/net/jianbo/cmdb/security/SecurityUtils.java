@@ -3,6 +3,7 @@ package net.jianbo.cmdb.security;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.ldap.userdetails.LdapUserDetails;
 
 import java.util.Optional;
 
@@ -28,6 +29,9 @@ public final class SecurityUtils {
                     return springSecurityUser.getUsername();
                 } else if (authentication.getPrincipal() instanceof String) {
                     return (String) authentication.getPrincipal();
+                } else if (authentication.getPrincipal() instanceof LdapUserDetails) {
+                    LdapUserDetails ldapUser = (LdapUserDetails) authentication.getPrincipal();
+                    return ldapUser.getUsername();
                 }
                 return null;
             });
